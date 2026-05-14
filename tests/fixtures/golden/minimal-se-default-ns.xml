@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Minimal DPI report — sale of goods, single individual seller.
+  Validates against OECD DPI XML Schema v1.0 (urn:oecd:ties:dpi:v1).
+
+  Structure adapted from backmarket-oss/dac7 example with namespace
+  prefixes updated to v1 and a Swedish operator/seller. TINs pass
+  Luhn so the SE schematron rule (S001) is satisfied.
+-->
+<DPI_OECD
+    xmlns="urn:oecd:ties:dpi:v1"
+    xmlns:stf="urn:oecd:ties:dpistf:v1"
+    version="1.0">
+  <MessageSpec>
+    <TransmittingCountry>SE</TransmittingCountry>
+    <ReceivingCountry>SE</ReceivingCountry>
+    <MessageType>DPI</MessageType>
+    <MessageRefId>SE_2025_5560000001_d1</MessageRefId>
+    <MessageTypeIndic>DPI401</MessageTypeIndic>
+    <ReportingPeriod>2025-12-31</ReportingPeriod>
+    <Timestamp>2026-01-15T09:00:00</Timestamp>
+  </MessageSpec>
+  <DPIBody>
+    <PlatformOperator>
+      <ResCountryCode>SE</ResCountryCode>
+      <TIN issuedBy="SE">5560000001</TIN>
+      <Name>Example Marketplace AB</Name>
+      <PlatformBusinessName>example.se</PlatformBusinessName>
+      <Address legalAddressType="OECD304">
+        <CountryCode>SE</CountryCode>
+        <AddressFix>
+          <Street>Storgatan 1</Street>
+          <PostCode>11122</PostCode>
+          <City>Stockholm</City>
+        </AddressFix>
+      </Address>
+      <Nexus>RPONEX1</Nexus>
+      <AssumedReporting>false</AssumedReporting>
+      <DocSpec>
+        <stf:DocTypeIndic>OECD1</stf:DocTypeIndic>
+        <stf:DocRefId>SE_2025_5560000001_v1</stf:DocRefId>
+      </DocSpec>
+    </PlatformOperator>
+    <ReportableSeller>
+      <Identity>
+        <IndividualSeller>
+          <Standard>
+            <IndSellerID>
+              <ResCountryCode>SE</ResCountryCode>
+              <TIN issuedBy="SE">8001011009</TIN>
+              <Name>
+                <FirstName>Anna</FirstName>
+                <LastName>Andersson</LastName>
+              </Name>
+              <Address legalAddressType="OECD302">
+                <CountryCode>SE</CountryCode>
+                <AddressFix>
+                  <Street>Lillgatan 2</Street>
+                  <PostCode>41101</PostCode>
+                  <City>Goteborg</City>
+                </AddressFix>
+              </Address>
+              <BirthInfo>
+                <BirthDate>1980-01-01</BirthDate>
+              </BirthInfo>
+            </IndSellerID>
+          </Standard>
+        </IndividualSeller>
+      </Identity>
+      <RelevantActivities>
+        <SaleOfGoods>
+          <Consideration>
+            <ConsQ1 currCode="SEK">1250</ConsQ1>
+            <ConsQ2 currCode="SEK">1500</ConsQ2>
+            <ConsQ3 currCode="SEK">1000</ConsQ3>
+            <ConsQ4 currCode="SEK">1250</ConsQ4>
+          </Consideration>
+          <NumberOfActivities>
+            <NumbQ1>10</NumbQ1>
+            <NumbQ2>15</NumbQ2>
+            <NumbQ3>12</NumbQ3>
+            <NumbQ4>13</NumbQ4>
+          </NumberOfActivities>
+          <Fees>
+            <FeesQ1 currCode="SEK">125</FeesQ1>
+            <FeesQ2 currCode="SEK">150</FeesQ2>
+            <FeesQ3 currCode="SEK">100</FeesQ3>
+            <FeesQ4 currCode="SEK">125</FeesQ4>
+          </Fees>
+          <Taxes>
+            <TaxQ1 currCode="SEK">0</TaxQ1>
+            <TaxQ2 currCode="SEK">0</TaxQ2>
+            <TaxQ3 currCode="SEK">0</TaxQ3>
+            <TaxQ4 currCode="SEK">0</TaxQ4>
+          </Taxes>
+        </SaleOfGoods>
+      </RelevantActivities>
+      <DocSpec>
+        <stf:DocTypeIndic>OECD1</stf:DocTypeIndic>
+        <stf:DocRefId>SE_2025_RS_0001_v1</stf:DocRefId>
+      </DocSpec>
+    </ReportableSeller>
+  </DPIBody>
+</DPI_OECD>

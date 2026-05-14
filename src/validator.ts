@@ -4,6 +4,7 @@ import { dirname, join } from 'node:path';
 import { mapLibxmlError } from './errors.js';
 import { runOecdRules } from './schematron/oecd.js';
 import { runSwedishRules } from './schematron/se.js';
+import { JURISDICTIONS } from './types.js';
 import type {
   Jurisdiction,
   ValidateOptions,
@@ -12,6 +13,24 @@ import type {
 } from './types.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
+
+// libxml2 parse options. Defence-in-depth against XXE/SSRF:
+//   - noent: false  → do not expand external entities
+//   - nonet: true   → never fetch external resources over the network
+//   - dtdload/dtdvalid: false → do not load or validate against DTDs
+//   - huge: false   → reject pathologically large inputs (default, but explicit)
+const SAFE_PARSE_OPTS = {
+  noent: false,
+  nonet: true,
+  dtdload: false,
+  dtdvalid: false,
+  huge: false,
+} as const;
+
+// DPI XML must not declare a DOCTYPE. Reject up front to avoid coupling
+// our safety stance to libxml2's default options. Cheap string check
+// before parsing — XML lets at most one <!DOCTYPE> in the prolog.
+const DOCTYPE_RE = /<!DOCTYPE\b/i;
 
 // Schemas live next to the package (copied via tsup/postbuild).
 // In dev they live one level up at the repo root.
@@ -42,7 +61,10 @@ async function loadSchema(): Promise<unknown> {
       // relative to the XSD file (it imports isodpitypes_v1.0.xsd and
       // oecddpitypes_v1.0.xsd as siblings).
       const xsd = await readFile(candidate, 'utf-8');
-      cachedSchema = libxmljs.parseXml(xsd, { baseUrl: candidate });
+      cachedSchema = libxmljs.parseXml(xsd, {
+        ...SAFE_PARSE_OPTS,
+        baseUrl: candidate,
+      });
       return cachedSchema;
     } catch (err) {
       lastErr = err;
@@ -77,12 +99,36 @@ export async function validateDPI(
 ): Promise<ValidationResult> {
   const schemaVersion = options.schemaVersion ?? '1.0';
 
+  if (options.jurisdiction !== undefined && !JURISDICTIONS.has(options.jurisdiction)) {
+    throw new TypeError(
+      `Unknown jurisdiction "${options.jurisdiction}". Expected one of: ${[...JURISDICTIONS].join(', ')}.`,
+    );
+  }
+
   const libxmljs = await import('libxmljs2');
   const schema = (await loadSchema()) as ReturnType<typeof libxmljs.parseXml>;
 
+  if (DOCTYPE_RE.test(xml)) {
+    return {
+      valid: false,
+      errors: [
+        {
+          code: 'OECD_DPI_E000',
+          severity: 'error',
+          path: '',
+          message: 'XML declares a DOCTYPE. DPI XML must not contain a document type declaration.',
+          hint: 'Remove the <!DOCTYPE …> declaration. DTDs are not part of the OECD DPI schema and are rejected to prevent XXE attacks.',
+          docs: 'https://github.com/lucasros98/dac7-validator/blob/main/docs/errors/OECD_DPI_E000.md',
+        },
+      ],
+      warnings: [],
+      schemaVersion,
+    };
+  }
+
   let doc: ReturnType<typeof libxmljs.parseXml>;
   try {
-    doc = libxmljs.parseXml(xml);
+    doc = libxmljs.parseXml(xml, SAFE_PARSE_OPTS);
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
     return {

@@ -1,5 +1,45 @@
 # Changelog
 
+## 0.1.2 — unreleased
+
+Security and packaging hardening after the v0.1 code audit.
+
+### Security
+- **Upgraded `libxmljs2` to `^0.37.0`** to clear critical advisory
+  GHSA-78h3-pg4x-j8cv (type confusion when parsing crafted XML).
+- **Reject XML containing a `<!DOCTYPE>` declaration** up front with
+  `OECD_DPI_E000`. DPI XML has no DTD, and rejecting DOCTYPEs makes the
+  validator robust against XXE attacks even if libxml2 defaults change.
+- **Explicit safe parse options** (`nonet: true`, `noent: false`,
+  `dtdload: false`, `dtdvalid: false`) — defence in depth against
+  external-entity expansion and SSRF.
+- **CI now runs `npm audit --omit=dev --audit-level=high`** so future
+  high/critical advisories block merges.
+
+### Fixed
+- **CJS entrypoint was crashing on import** because tsup rewrote
+  `fileURLToPath(import.meta.url)` to `fileURLToPath(undefined)`. The
+  package is now ESM-only (`"exports"` no longer advertises `require`).
+  Node 18+ consumers can still use `await import('dac7-validator')` from
+  CommonJS.
+- **`runMain` no longer auto-executes when `dist/cli.js` is imported as
+  a module** — only when invoked as a script. This makes the CLI safely
+  testable.
+- **`jurisdiction` is now validated at runtime** in both the library and
+  the CLI. Unknown codes throw `TypeError` from the API and exit `2`
+  from the CLI instead of silently skipping schematron rules.
+
+### Removed
+- Unused `fast-xml-parser` dependency. It was never imported and was
+  pulling in a moderate-severity advisory (GHSA-gh4j-gqv2-49f6).
+
+### Added
+- Test fixtures and regression tests:
+  `invalid/doctype-xxe.xml` (DOCTYPE rejection + no XXE leakage) and
+  `golden/minimal-se-default-ns.xml` (default-namespace acceptance).
+- `JURISDICTIONS` set exported from `types.ts` as the single source of
+  truth for valid jurisdiction codes.
+
 ## 0.1.1 — 2026-05-14
 
 Patch release. No code or API changes — README, schema attribution, and error-doc cleanup only.
