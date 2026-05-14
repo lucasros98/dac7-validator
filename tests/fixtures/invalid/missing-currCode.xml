@@ -70,7 +70,7 @@
       <dpi:RelevantActivities>
         <dpi:SaleOfGoods>
           <dpi:Consideration>
-            <dpi:ConsQ1 currCode="SEK">1250</dpi:ConsQ1>
+            <dpi:ConsQ1>1250</dpi:ConsQ1>
             <dpi:ConsQ2 currCode="SEK">1500</dpi:ConsQ2>
             <dpi:ConsQ3 currCode="SEK">1000</dpi:ConsQ3>
             <dpi:ConsQ4 currCode="SEK">1250</dpi:ConsQ4>

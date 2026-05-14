@@ -1,95 +1,104 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  Minimal canonical DPI report (structural example only).
-  Replace the placeholder schemas/oecd/DPIXML_v1.0.xsd with the official OECD XSD
-  before this fixture can be validated end-to-end.
+  Minimal DPI report — sale of goods, single individual seller.
+  Validates against OECD DPI XML Schema v1.0 (urn:oecd:ties:dpi:v1).
+
+  Structure adapted from backmarket-oss/dac7 example with namespace
+  prefixes updated to v1 and a Swedish operator/seller. TINs pass
+  Luhn so the SE schematron rule (S001) is satisfied.
 -->
-<DPI_OECD version="1.0" xmlns="urn:oecd:ties:dpi:v1">
-  <MessageSpec>
-    <SendingEntityIN>SE1234567890</SendingEntityIN>
-    <TransmittingCountry>SE</TransmittingCountry>
-    <ReceivingCountry>SE</ReceivingCountry>
-    <MessageType>DPI</MessageType>
-    <MessageRefId>SE-2025-0001</MessageRefId>
-    <MessageTypeIndic>DPI401</MessageTypeIndic>
-    <ReportingPeriod>2025-12-31</ReportingPeriod>
-    <Timestamp>2026-01-15T09:00:00Z</Timestamp>
-  </MessageSpec>
-  <DPIBody>
-    <PlatformOperator>
-      <ResCountryCode>SE</ResCountryCode>
-      <TIN issuedBy="SE">5560000001</TIN>
-      <Name>Example Marketplace AB</Name>
-      <Address>
-        <CountryCode>SE</CountryCode>
-        <AddressFix>
-          <Street>Storgatan 1</Street>
-          <City>Stockholm</City>
-          <PostCode>11122</PostCode>
-        </AddressFix>
-      </Address>
-      <Nexus>RPONEX1</Nexus>
-      <AssumedReporting>false</AssumedReporting>
-      <DocSpec>
-        <DocTypeIndic>OECD1</DocTypeIndic>
-        <DocRefId>SE-2025-PO-0001</DocRefId>
-      </DocSpec>
-    </PlatformOperator>
-    <ReportableSeller>
-      <Identity>
-        <EntSeller>
-          <StdSeller>
-            <Indviduals>
-              <IndSellerID>
-                <Name>
-                  <FirstName>Anna</FirstName>
-                  <LastName>Andersson</LastName>
-                </Name>
-                <Address>
-                  <CountryCode>SE</CountryCode>
-                  <AddressFix>
-                    <Street>Lillgatan 2</Street>
-                    <City>Goteborg</City>
-                    <PostCode>41101</PostCode>
-                  </AddressFix>
-                </Address>
-                <TIN issuedBy="SE">8001011009</TIN>
-                <BirthInfo>
-                  <BirthDate>1980-01-01</BirthDate>
-                </BirthInfo>
-              </IndSellerID>
-            </Indviduals>
-          </StdSeller>
-        </EntSeller>
-      </Identity>
-      <RelevantActivities>
-        <SaleOfGoods>
-          <ConsiderationSoG>
-            <ConsQ1>
-              <MonAmnt currCode="SEK">1250.00</MonAmnt>
-            </ConsQ1>
-            <ConsQ2>
-              <MonAmnt currCode="SEK">1500.00</MonAmnt>
-            </ConsQ2>
-            <ConsQ3>
-              <MonAmnt currCode="SEK">1000.00</MonAmnt>
-            </ConsQ3>
-            <ConsQ4>
-              <MonAmnt currCode="SEK">1250.00</MonAmnt>
-            </ConsQ4>
-          </ConsiderationSoG>
-          <NumberOfActivitiesSoG>
-            <NumbQ1>10</NumbQ1>
-            <NumbQ2>15</NumbQ2>
-            <NumbQ3>12</NumbQ3>
-            <NumbQ4>13</NumbQ4>
-          </NumberOfActivitiesSoG>
-        </SaleOfGoods>
-      </RelevantActivities>
-      <DocSpec>
-        <DocTypeIndic>OECD1</DocTypeIndic>
-        <DocRefId>SE-2025-RS-0001</DocRefId>
-      </DocSpec>
-    </ReportableSeller>
-  </DPIBody>
-</DPI_OECD>
+<dpi:DPI_OECD
+    xmlns:dpi="urn:oecd:ties:dpi:v1"
+    xmlns:stf="urn:oecd:ties:dpistf:v1"
+    version="1.0">
+  <dpi:MessageSpec>
+    <dpi:TransmittingCountry>SE</dpi:TransmittingCountry>
+    <dpi:ReceivingCountry>SE</dpi:ReceivingCountry>
+    <dpi:MessageType>DPI</dpi:MessageType>
+    <dpi:MessageRefId>SE_2025_5560000001_d1</dpi:MessageRefId>
+    <dpi:MessageTypeIndic>DPI401</dpi:MessageTypeIndic>
+    <dpi:ReportingPeriod>2025-12-31</dpi:ReportingPeriod>
+    <dpi:Timestamp>2026-01-15T09:00:00</dpi:Timestamp>
+  </dpi:MessageSpec>
+  <dpi:DPIBody>
+    <dpi:PlatformOperator>
+      <dpi:ResCountryCode>SE</dpi:ResCountryCode>
+      <dpi:TIN issuedBy="SE">5560000001</dpi:TIN>
+      <dpi:Name>Example Marketplace AB</dpi:Name>
+      <dpi:PlatformBusinessName>example.se</dpi:PlatformBusinessName>
+      <dpi:Address legalAddressType="OECD304">
+        <dpi:CountryCode>SE</dpi:CountryCode>
+        <dpi:AddressFix>
+          <dpi:Street>Storgatan 1</dpi:Street>
+          <dpi:PostCode>11122</dpi:PostCode>
+          <dpi:City>Stockholm</dpi:City>
+        </dpi:AddressFix>
+      </dpi:Address>
+      <dpi:Nexus>RPONEX1</dpi:Nexus>
+      <dpi:AssumedReporting>false</dpi:AssumedReporting>
+      <dpi:DocSpec>
+        <stf:DocTypeIndic>OECD1</stf:DocTypeIndic>
+        <stf:DocRefId>SE_2025_5560000001_v1</stf:DocRefId>
+      </dpi:DocSpec>
+    </dpi:PlatformOperator>
+    <dpi:ReportableSeller>
+      <dpi:Identity>
+        <dpi:IndividualSeller>
+          <dpi:Standard>
+            <dpi:IndSellerID>
+              <dpi:ResCountryCode>SE</dpi:ResCountryCode>
+              <dpi:TIN issuedBy="SE">8001011009</dpi:TIN>
+              <dpi:Name>
+                <dpi:FirstName>Anna</dpi:FirstName>
+                <dpi:LastName>Andersson</dpi:LastName>
+              </dpi:Name>
+              <dpi:Address legalAddressType="OECD302">
+                <dpi:CountryCode>SE</dpi:CountryCode>
+                <dpi:AddressFix>
+                  <dpi:Street>Lillgatan 2</dpi:Street>
+                  <dpi:PostCode>41101</dpi:PostCode>
+                  <dpi:City>Goteborg</dpi:City>
+                </dpi:AddressFix>
+              </dpi:Address>
+              <dpi:BirthInfo>
+                <dpi:BirthDate>1980-01-01</dpi:BirthDate>
+              </dpi:BirthInfo>
+            </dpi:IndSellerID>
+          </dpi:Standard>
+        </dpi:IndividualSeller>
+      </dpi:Identity>
+      <dpi:RelevantActivities>
+        <dpi:SaleOfGoods>
+          <dpi:Consideration>
+            <dpi:ConsQ1 currCode="SEK">1250</dpi:ConsQ1>
+            <dpi:ConsQ2 currCode="SEK">1500</dpi:ConsQ2>
+            <dpi:ConsQ3 currCode="SEK">1000</dpi:ConsQ3>
+            <dpi:ConsQ4 currCode="SEK">1250</dpi:ConsQ4>
+          </dpi:Consideration>
+          <dpi:NumberOfActivities>
+            <dpi:NumbQ1>10</dpi:NumbQ1>
+            <dpi:NumbQ2>15</dpi:NumbQ2>
+            <dpi:NumbQ3>12</dpi:NumbQ3>
+            <dpi:NumbQ4>13</dpi:NumbQ4>
+          </dpi:NumberOfActivities>
+          <dpi:Fees>
+            <dpi:FeesQ1 currCode="SEK">125</dpi:FeesQ1>
+            <dpi:FeesQ2 currCode="SEK">150</dpi:FeesQ2>
+            <dpi:FeesQ3 currCode="SEK">100</dpi:FeesQ3>
+            <dpi:FeesQ4 currCode="SEK">125</dpi:FeesQ4>
+          </dpi:Fees>
+          <dpi:Taxes>
+            <dpi:TaxQ1 currCode="SEK">0</dpi:TaxQ1>
+            <dpi:TaxQ2 currCode="SEK">0</dpi:TaxQ2>
+            <dpi:TaxQ3 currCode="SEK">0</dpi:TaxQ3>
+            <dpi:TaxQ4 currCode="SEK">0</dpi:TaxQ4>
+          </dpi:Taxes>
+        </dpi:SaleOfGoods>
+      </dpi:RelevantActivities>
+      <dpi:DocSpec>
+        <stf:DocTypeIndic>OECD1</stf:DocTypeIndic>
+        <stf:DocRefId>SE_2025_RS_0001_v1</stf:DocRefId>
+      </dpi:DocSpec>
+    </dpi:ReportableSeller>
+  </dpi:DPIBody>
+</dpi:DPI_OECD>

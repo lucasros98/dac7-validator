@@ -12,7 +12,7 @@
     xmlns:stf="urn:oecd:ties:dpistf:v1"
     version="1.0">
   <dpi:MessageSpec>
-    <dpi:TransmittingCountry>SE</dpi:TransmittingCountry>
+    <dpi:TransmittingCountry>ZZ</dpi:TransmittingCountry>
     <dpi:ReceivingCountry>SE</dpi:ReceivingCountry>
     <dpi:MessageType>DPI</dpi:MessageType>
     <dpi:MessageRefId>SE_2025_5560000001_d1</dpi:MessageRefId>

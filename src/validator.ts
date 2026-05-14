@@ -38,8 +38,11 @@ async function loadSchema(): Promise<unknown> {
   let lastErr: unknown;
   for (const candidate of SCHEMA_CANDIDATES) {
     try {
+      // baseUrl lets libxml2 resolve xs:import schemaLocation paths
+      // relative to the XSD file (it imports isodpitypes_v1.0.xsd and
+      // oecddpitypes_v1.0.xsd as siblings).
       const xsd = await readFile(candidate, 'utf-8');
-      cachedSchema = libxmljs.parseXml(xsd);
+      cachedSchema = libxmljs.parseXml(xsd, { baseUrl: candidate });
       return cachedSchema;
     } catch (err) {
       lastErr = err;

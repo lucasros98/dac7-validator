@@ -20,14 +20,14 @@ const PATTERNS: ErrorPattern[] = [
     hint: 'A required child element is missing. Compare against the canonical example structure.',
   },
   {
-    pattern: /value .* is not a valid value of the (atomic )?type/i,
-    code: 'OECD_DPI_E003',
-    hint: 'The element value does not match the required data type (e.g. wrong date format, non-numeric where number expected, or invalid enumeration).',
-  },
-  {
-    pattern: /not (a valid )?value for .* enumeration/i,
+    pattern: /\[facet 'enumeration'\]|is not an element of the set|not (a valid )?value for .* enumeration/i,
     code: 'OECD_DPI_E004',
     hint: 'The value is not in the allowed code list. Check OECD code lists (country codes ISO 3166-1, currency ISO 4217, etc.).',
+  },
+  {
+    pattern: /is not a valid value of (the )?(atomic |union )?type|is not a valid value of the local atomic type/i,
+    code: 'OECD_DPI_E003',
+    hint: 'The element value does not match the required data type (e.g. wrong date format, non-numeric where number expected).',
   },
   {
     pattern: /attribute .* is required/i,

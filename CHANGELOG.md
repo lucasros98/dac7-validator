@@ -16,9 +16,14 @@ First public version. Scope is intentionally narrow.
 - Dual ESM / CJS build via tsup.
 - Public helpers `isValidSwedishTIN()` and `luhn()` exported for downstream reuse.
 
+### Real OECD XSD now bundled
+
+Real OECD DPI XML Schema v1.0 files (2023-04-17) are now shipped under `schemas/oecd/`. All 19 tests pass against the real schema, including the three previously-todo tests for E003 (invalid date), E004 (invalid country code), and E005 (missing required attribute).
+
+The validator now resolves `xs:import` paths correctly using `baseUrl`, so the three OECD XSDs (main + iso + dpistf types) load as a unit.
+
 ### Not yet included (planned)
-- Real OECD DPI XSD (placeholder shipped — user must download and drop into `schemas/oecd/`).
-- More jurisdictions: DE, FR, NL, BE.
+- More jurisdictions: DE, FR, NL, BE (note: FR uses a different namespace, needs a separate XSD bundle).
 - Full schematron compatibility via Saxon-JS compiling official `.sch` files.
 - Threshold-rule checks (e.g. < 30 sales AND < €2000 for goods).
 - Correction-report (`CorrDocRefId`) flow validation.

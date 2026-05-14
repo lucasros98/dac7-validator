@@ -37,9 +37,29 @@ describe('validateDPI — XSD layer', () => {
     expect(result.errors).toEqual([]);
   });
 
-  it.todo('reports OECD_DPI_E003 on invalid date format (needs real OECD XSD)');
-  it.todo('reports OECD_DPI_E004 on invalid country code (needs real OECD XSD)');
-  it.todo('reports OECD_DPI_E005 on missing required attribute (needs real OECD XSD)');
+  it('reports OECD_DPI_E003 on invalid date format', async () => {
+    const xml = await fixture('invalid/invalid-date.xml');
+    const result = await validateDPI(xml);
+    expect(result.valid).toBe(false);
+    const codes = result.errors.map((e) => e.code);
+    expect(codes).toContain('OECD_DPI_E003');
+  });
+
+  it('reports OECD_DPI_E004 on invalid country code', async () => {
+    const xml = await fixture('invalid/invalid-country.xml');
+    const result = await validateDPI(xml);
+    expect(result.valid).toBe(false);
+    const codes = result.errors.map((e) => e.code);
+    expect(codes).toContain('OECD_DPI_E004');
+  });
+
+  it('reports OECD_DPI_E005 on missing required attribute', async () => {
+    const xml = await fixture('invalid/missing-currCode.xml');
+    const result = await validateDPI(xml);
+    expect(result.valid).toBe(false);
+    const codes = result.errors.map((e) => e.code);
+    expect(codes).toContain('OECD_DPI_E005');
+  });
 });
 
 describe('validateDPI — schematron layer', () => {

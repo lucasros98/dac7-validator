@@ -17,7 +17,7 @@
     <dpi:MessageType>DPI</dpi:MessageType>
     <dpi:MessageRefId>SE_2025_5560000001_d1</dpi:MessageRefId>
     <dpi:MessageTypeIndic>DPI401</dpi:MessageTypeIndic>
-    <dpi:ReportingPeriod>2025-12-31</dpi:ReportingPeriod>
+    <dpi:ReportingPeriod>31/12/2025</dpi:ReportingPeriod>
     <dpi:Timestamp>2026-01-15T09:00:00</dpi:Timestamp>
   </dpi:MessageSpec>
   <dpi:DPIBody>

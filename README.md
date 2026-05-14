@@ -2,7 +2,7 @@
 
 TypeScript validator for **OECD DPI / EU DAC7** XML reports. Validates against the official XSD with typed, human-readable errors.
 
-> **Status:** v0.1.0, pre-release. XSD wiring is in place; schematron and jurisdiction-specific rules are on the roadmap.
+> **Status:** v0.1.0, pre-release. Bundles the official OECD DPI XML Schema v1.0 and a hand-rolled schematron layer with Swedish TIN validation. Tests: 19/19 passing.
 
 ## Why
 
@@ -72,7 +72,7 @@ Full catalog under [docs/errors/](./docs/errors/).
 
 ## Schema files
 
-The OECD XSD is **not bundled** in this repo. Download it yourself and drop it in `schemas/oecd/`. See [schemas/oecd/README.md](./schemas/oecd/README.md).
+The official OECD DPI XML Schema v1.0 is **bundled** under `schemas/oecd/`. See [schemas/oecd/README.md](./schemas/oecd/README.md) for source and attribution.
 
 ## Roadmap
 
