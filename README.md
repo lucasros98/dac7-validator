@@ -2,7 +2,11 @@
 
 TypeScript validator for **OECD DPI / EU DAC7** XML reports. Validates against the official XSD with typed, human-readable errors.
 
-> **Status:** v0.1.0, pre-release. Bundles the official OECD DPI XML Schema v1.0 and a hand-rolled schematron layer with Swedish TIN validation. Tests: 19/19 passing.
+[![CI](https://github.com/lucasros98/dac7-validator/actions/workflows/ci.yml/badge.svg)](https://github.com/lucasros98/dac7-validator/actions/workflows/ci.yml)
+[![npm version](https://img.shields.io/npm/v/dac7-validator.svg)](https://www.npmjs.com/package/dac7-validator)
+[![license](https://img.shields.io/npm/l/dac7-validator.svg)](./LICENSE)
+
+> **Early pre-release (v0.1).** API will change before 1.0. Today it covers XSD validation, typed errors, a CLI, and one jurisdiction-specific schematron rule (Swedish TIN). See the [roadmap](#roadmap) for what's coming.
 
 ## Why
 
@@ -74,20 +78,34 @@ Full catalog under [docs/errors/](./docs/errors/).
 
 The official OECD DPI XML Schema v1.0 is **bundled** under `schemas/oecd/`. See [schemas/oecd/README.md](./schemas/oecd/README.md) for source and attribution.
 
+## What's in v0.1
+
+- XSD validation against the official OECD DPI XML Schema v1.0 (bundled)
+- Typed `ValidationResult` and `ValidationError` with stable error codes
+- Per-error documentation pages with hints and broken-then-fixed examples
+- `dac7-validator` CLI (`validate` subcommand with `--json` and `--jurisdiction`)
+- Schematron infrastructure layered on top of XSD validation
+- First jurisdiction rule: Swedish TIN — `OECD_DPI_S001` (Luhn check on org-nr / personnummer)
+- Public helpers `isValidSwedishTIN()` and `luhn()`
+
 ## Roadmap
 
-- [x] XSD validation
-- [x] Typed errors with hints
-- [x] CLI
-- [x] Schematron infrastructure (hand-rolled XPath via libxmljs2)
-- [x] First jurisdiction-specific rule: Swedish TIN Luhn check
-- [ ] More jurisdictions (DE, FR, NL, BE first)
-- [ ] Full schematron compatibility (Saxon-JS, compile official .sch files)
-- [ ] Threshold-rule checks (<30 sales AND <€2000 for goods)
-- [ ] Correction-report flow
-- [ ] Builder API (`buildDPIReport`)
-- [ ] Browser playground at dac7-validator.dev
+Planned for later releases. **Not implemented yet** — don't rely on these in v0.1:
+
+- More jurisdictions: DE, FR, NL, BE (note: FR uses a different schema namespace)
+- Full schematron compatibility — compile official OECD `.sch` files with Saxon-JS
+- Threshold-rule checks (<30 sales AND <€2000 for goods)
+- Correction-report (`CorrDocRefId`) flow validation
+- Builder API: `buildDPIReport(data)` → XML
+- TIN validation for more jurisdictions
+- Hosted browser playground
+
+Track progress in the [CHANGELOG](./CHANGELOG.md) and on the [issue tracker](https://github.com/lucasros98/dac7-validator/issues).
+
+## Contributing
+
+Issues and PRs welcome. If you hit `OECD_DPI_E999` (unmapped schema error), please open an issue with the raw libxml message — we'll add a mapping. If you have access to country-specific schematron rules and example XML, that's especially valuable.
 
 ## License
 
-MIT
+MIT — see [LICENSE](./LICENSE). The bundled OECD XSDs are © OECD; see [schemas/oecd/README.md](./schemas/oecd/README.md) for terms.
