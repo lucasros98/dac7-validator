@@ -49,4 +49,4 @@ This rule only fires when you call the validator with `{ jurisdiction: 'SE' }`. 
 - Wikipedia — [Organisationsnummer (svenska)](https://sv.wikipedia.org/wiki/Organisationsnummer)
 - Wikipedia — [Personnummer i Sverige](https://sv.wikipedia.org/wiki/Personnummer_i_Sverige)
 - Wikipedia — [Luhn algorithm](https://en.wikipedia.org/wiki/Luhn_algorithm)
-- Skatteverket — [DAC7 (Sverige)](https://www.skatteverket.se/foretag/internationellt/dac7.4.html)
+- Skatteverket — search "DAC7" on skatteverket.se

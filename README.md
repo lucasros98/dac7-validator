@@ -10,7 +10,7 @@ TypeScript validator for **OECD DPI / EU DAC7** XML reports. Validates against t
 
 ## Why
 
-EU directive [DAC7](https://taxation-customs.ec.europa.eu/taxation/tax-transparency-cooperation/administrative-co-operation-and-mutual-assistance/dac7_en) forces digital platforms (marketplaces, rental, ride-share, gig) to report seller income to tax authorities annually. The required format is OECD's [DPI XML Schema](https://www.oecd.org/tax/exchange-of-tax-information/model-rules-for-reporting-by-digital-platform-operators-xml-schema-user-guide-for-tax-administrations.htm) — and getting it wrong means fines up to €900k per filing.
+EU directive [DAC7](https://taxation-customs.ec.europa.eu/taxation/tax-transparency-cooperation/administrative-co-operation-and-mutual-assistance/dac7_en) forces digital platforms (marketplaces, rental, ride-share, gig) to report seller income to tax authorities annually. The required format is OECD's DPI XML Schema — and getting it wrong means fines up to €900k per filing.
 
 Java and Python have decent tooling for this. Node/TypeScript did not. `dac7-validator` is the start of fixing that.
 

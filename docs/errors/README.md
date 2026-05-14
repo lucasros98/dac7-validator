@@ -35,6 +35,6 @@ If a page is missing, file an issue at https://github.com/lucasros98/dac7-valida
 
 ## Further reading
 
-- OECD DPI Model Rules and XML Schema User Guide: https://www.oecd.org/tax/exchange-of-tax-information/
+- OECD DPI Model Rules and XML Schema User Guide (search OECD.org for "Digital Platform Operators XML Schema")
 - EU DAC7 directive: https://taxation-customs.ec.europa.eu/taxation/tax-transparency-cooperation/administrative-co-operation-and-mutual-assistance/dac7_en
 - W3C XML Schema 1.0 spec: https://www.w3.org/TR/xmlschema-0/
