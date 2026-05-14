@@ -109,3 +109,7 @@ Issues and PRs welcome. If you hit `OECD_DPI_E999` (unmapped schema error), plea
 ## License
 
 MIT — see [LICENSE](./LICENSE). The bundled OECD XSDs are © OECD; see [schemas/oecd/README.md](./schemas/oecd/README.md) for terms.
+
+---
+
+Built by [Fiive](https://fiive.se).
