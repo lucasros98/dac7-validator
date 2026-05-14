@@ -1,6 +1,6 @@
 import type { ValidationError } from './types.js';
 
-const DOCS_BASE = 'https://github.com/lucasrosvall/dac7-validator/blob/main/docs/errors';
+const DOCS_BASE = 'https://github.com/lucasros98/dac7-validator/blob/main/docs/errors';
 
 interface ErrorPattern {
   pattern: RegExp;

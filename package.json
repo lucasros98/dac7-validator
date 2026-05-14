@@ -19,12 +19,12 @@
   "author": "Lucas Rosvall <lucasrosvall@gmail.com>",
   "repository": {
     "type": "git",
-    "url": "https://github.com/lucasrosvall/dac7-validator.git"
+    "url": "https://github.com/lucasros98/dac7-validator.git"
   },
   "bugs": {
-    "url": "https://github.com/lucasrosvall/dac7-validator/issues"
+    "url": "https://github.com/lucasros98/dac7-validator/issues"
   },
-  "homepage": "https://github.com/lucasrosvall/dac7-validator#readme",
+  "homepage": "https://github.com/lucasros98/dac7-validator#readme",
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",

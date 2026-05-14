@@ -69,7 +69,7 @@ export async function validateDPI(
           path: '',
           message: `XML is not well-formed: ${message}`,
           hint: 'The input is not valid XML. Check encoding, unclosed tags, or invalid characters.',
-          docs: 'https://github.com/lucasrosvall/dac7-validator/blob/main/docs/errors/OECD_DPI_E000.md',
+          docs: 'https://github.com/lucasros98/dac7-validator/blob/main/docs/errors/OECD_DPI_E000.md',
         },
       ],
       warnings: [],
