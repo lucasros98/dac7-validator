@@ -63,8 +63,12 @@ Every error has a stable code and a documentation page:
 | `OECD_DPI_E006` | Unknown element |
 | `OECD_DPI_E007` | Element not declared in schema |
 | `OECD_DPI_E999` | Unmapped schema error |
+| `OECD_DPI_S001` | Invalid Swedish TIN (schematron, jurisdiction=SE) |
+| `OECD_DPI_S100` | MessageSpec missing MessageRefId (schematron) |
 
-Full catalog under `docs/errors/`.
+Codes prefixed `E` come from XSD validation; codes prefixed `S` come from schematron business rules.
+
+Full catalog under [docs/errors/](./docs/errors/).
 
 ## Schema files
 
@@ -75,10 +79,11 @@ The OECD XSD is **not bundled** in this repo. Download it yourself and drop it i
 - [x] XSD validation
 - [x] Typed errors with hints
 - [x] CLI
-- [ ] Schematron rules
-- [ ] Per-jurisdiction national rules (SE, DE first)
-- [ ] TIN validation per jurisdiction
-- [ ] Threshold-rule checks
+- [x] Schematron infrastructure (hand-rolled XPath via libxmljs2)
+- [x] First jurisdiction-specific rule: Swedish TIN Luhn check
+- [ ] More jurisdictions (DE, FR, NL, BE first)
+- [ ] Full schematron compatibility (Saxon-JS, compile official .sch files)
+- [ ] Threshold-rule checks (<30 sales AND <€2000 for goods)
 - [ ] Correction-report flow
 - [ ] Builder API (`buildDPIReport`)
 - [ ] Browser playground at dac7-validator.dev

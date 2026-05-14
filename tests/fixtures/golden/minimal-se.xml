@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  Minimal canonical DPI report (structural example only).
-  Replace the placeholder schemas/oecd/DPIXML_v1.0.xsd with the official OECD XSD
-  before this fixture can be validated end-to-end.
+  Same shape as golden/minimal.xml but with Swedish TINs that pass
+  the Luhn check, so jurisdiction-specific schematron (SE) is happy.
+
+  Platform operator org-nr: 5560000001
+  Seller personnummer (10): 8001011009
 -->
 <DPI_OECD version="1.0" xmlns="urn:oecd:ties:dpi:v1">
   <MessageSpec>
@@ -65,18 +67,10 @@
       <RelevantActivities>
         <SaleOfGoods>
           <ConsiderationSoG>
-            <ConsQ1>
-              <MonAmnt currCode="SEK">1250.00</MonAmnt>
-            </ConsQ1>
-            <ConsQ2>
-              <MonAmnt currCode="SEK">1500.00</MonAmnt>
-            </ConsQ2>
-            <ConsQ3>
-              <MonAmnt currCode="SEK">1000.00</MonAmnt>
-            </ConsQ3>
-            <ConsQ4>
-              <MonAmnt currCode="SEK">1250.00</MonAmnt>
-            </ConsQ4>
+            <ConsQ1><MonAmnt currCode="SEK">1250.00</MonAmnt></ConsQ1>
+            <ConsQ2><MonAmnt currCode="SEK">1500.00</MonAmnt></ConsQ2>
+            <ConsQ3><MonAmnt currCode="SEK">1000.00</MonAmnt></ConsQ3>
+            <ConsQ4><MonAmnt currCode="SEK">1250.00</MonAmnt></ConsQ4>
           </ConsiderationSoG>
           <NumberOfActivitiesSoG>
             <NumbQ1>10</NumbQ1>

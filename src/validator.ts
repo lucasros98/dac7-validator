@@ -2,7 +2,14 @@ import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import { mapLibxmlError } from './errors.js';
-import type { ValidateOptions, ValidationError, ValidationResult } from './types.js';
+import { runOecdRules } from './schematron/oecd.js';
+import { runSwedishRules } from './schematron/se.js';
+import type {
+  Jurisdiction,
+  ValidateOptions,
+  ValidationError,
+  ValidationResult,
+} from './types.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -18,8 +25,6 @@ let cachedSchema: unknown | null = null;
 async function loadSchema(): Promise<unknown> {
   if (cachedSchema) return cachedSchema;
 
-  // Dynamic import keeps libxmljs2 (native dep) lazy so consumers
-  // without it installed get a clearer error.
   let libxmljs: typeof import('libxmljs2');
   try {
     libxmljs = await import('libxmljs2');
@@ -44,6 +49,23 @@ async function loadSchema(): Promise<unknown> {
     `DPI XSD not found. Expected at one of: ${SCHEMA_CANDIDATES.join(', ')}`,
     { cause: lastErr },
   );
+}
+
+/**
+ * Run all schematron-style business rules.
+ *
+ * v0.1 uses hand-rolled XPath via libxmljs2 instead of a real schematron
+ * engine. This keeps the dependency surface small. Once the rule set
+ * grows, swap in Saxon-JS to run the official OECD .sch files.
+ */
+function runSchematron(
+  doc: import('libxmljs2').Document,
+  jurisdiction: Jurisdiction | undefined,
+): ValidationError[] {
+  const errors: ValidationError[] = [];
+  errors.push(...runOecdRules(doc));
+  if (jurisdiction === 'SE') errors.push(...runSwedishRules(doc));
+  return errors;
 }
 
 export async function validateDPI(
@@ -77,8 +99,8 @@ export async function validateDPI(
     };
   }
 
-  const valid = doc.validate(schema);
-  const errors: ValidationError[] = valid
+  const xsdValid = doc.validate(schema);
+  const xsdErrors: ValidationError[] = xsdValid
     ? []
     : (doc.validationErrors ?? []).map((e) =>
         mapLibxmlError({
@@ -88,8 +110,14 @@ export async function validateDPI(
         }),
       );
 
+  // Skip schematron when XSD has already failed — running business
+  // rules on structurally broken XML produces noisy, often duplicate
+  // errors.
+  const schematronErrors = xsdValid ? runSchematron(doc, options.jurisdiction) : [];
+
+  const errors = [...xsdErrors, ...schematronErrors];
   return {
-    valid,
+    valid: errors.length === 0,
     errors,
     warnings: [],
     schemaVersion,
