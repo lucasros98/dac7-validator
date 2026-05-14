@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  PLACEHOLDER — not the real OECD DPI XSD.
+
+  This is a tiny stub schema so the test suite can run end-to-end without
+  bundling the official OECD schema. Replace this file with the real
+  DPIXML_v1.0.xsd (and supporting iso/oecd type schemas) downloaded from:
+
+    https://www.oecd.org/tax/exchange-of-tax-information/
+
+  The placeholder only validates the root element <DPI_OECD version="..."/>
+  in the urn:oecd:ties:dpi:v1 namespace. It accepts any child content.
+-->
+<xs:schema
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns="urn:oecd:ties:dpi:v1"
+  targetNamespace="urn:oecd:ties:dpi:v1"
+  elementFormDefault="qualified">
+
+  <xs:element name="DPI_OECD">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:any minOccurs="0" maxOccurs="unbounded" processContents="skip"/>
+      </xs:sequence>
+      <xs:attribute name="version" type="xs:string" use="required"/>
+    </xs:complexType>
+  </xs:element>
+
+</xs:schema>

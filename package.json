@@ -1,0 +1,75 @@
+{
+  "name": "dac7-validator",
+  "version": "0.1.0",
+  "description": "TypeScript validator for OECD DPI / EU DAC7 XML reports. Validates against the official XSD with typed, human-readable errors.",
+  "keywords": [
+    "dac7",
+    "dpi",
+    "oecd",
+    "eu",
+    "tax",
+    "compliance",
+    "xml",
+    "validator",
+    "xsd",
+    "marketplace",
+    "platform-reporting"
+  ],
+  "license": "MIT",
+  "author": "Lucas Rosvall <lucasrosvall@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lucasrosvall/dac7-validator.git"
+  },
+  "bugs": {
+    "url": "https://github.com/lucasrosvall/dac7-validator/issues"
+  },
+  "homepage": "https://github.com/lucasrosvall/dac7-validator#readme",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "bin": {
+    "dac7-validator": "./dist/cli.js"
+  },
+  "files": [
+    "dist",
+    "schemas",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit",
+    "lint": "tsc --noEmit",
+    "prepublishOnly": "pnpm build && pnpm test"
+  },
+  "dependencies": {
+    "citty": "^0.1.6",
+    "fast-xml-parser": "^4.5.0",
+    "libxmljs2": "^0.35.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "tsup": "^8.3.5",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

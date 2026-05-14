@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DPI_OECD version="1.0" xmlns="urn:oecd:ties:dpi:v1">
+  <MessageSpec>
+    <SendingEntityIN>SE1234567890</SendingEntityIN>
+  <!-- unclosed MessageSpec on purpose -->
+</DPI_OECD>
