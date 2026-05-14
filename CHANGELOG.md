@@ -1,6 +1,15 @@
 # Changelog
 
-## 0.1.0 — unreleased
+## 0.1.1 — 2026-05-14
+
+Patch release. No code or API changes — README, schema attribution, and error-doc cleanup only.
+
+- Removed deep links to regulator sites that were behind Cloudflare or returned 404 (OECD, Skatteverket, Belgium FPS Finance, BZSt). Replaced with "search the site" hints where needed.
+- Added "Built by Fiive" credit and link to fiive.se.
+- README: clearer pre-release banner, CI / npm / license badges, and a cleaner separation between what's in v0.1 vs the roadmap.
+- `prepublishOnly` script now uses npm (typecheck + build + test) instead of pnpm.
+
+## 0.1.0 — 2026-05-14
 
 First public version. Scope is intentionally narrow.
 

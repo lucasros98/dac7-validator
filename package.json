@@ -1,6 +1,6 @@
 {
   "name": "dac7-validator",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "TypeScript validator for OECD DPI / EU DAC7 XML reports. Validates against the official XSD with typed, human-readable errors.",
   "keywords": [
     "dac7",
