@@ -18,10 +18,13 @@ export interface ValidationResult {
   schemaVersion: string;
 }
 
-export type Jurisdiction =
-  | 'AT' | 'BE' | 'BG' | 'CY' | 'CZ' | 'DE' | 'DK' | 'EE' | 'ES' | 'FI'
-  | 'FR' | 'GR' | 'HR' | 'HU' | 'IE' | 'IT' | 'LT' | 'LU' | 'LV' | 'MT'
-  | 'NL' | 'PL' | 'PT' | 'RO' | 'SE' | 'SI' | 'SK';
+export const JURISDICTIONS = new Set([
+  'AT', 'BE', 'BG', 'CY', 'CZ', 'DE', 'DK', 'EE', 'ES', 'FI',
+  'FR', 'GR', 'HR', 'HU', 'IE', 'IT', 'LT', 'LU', 'LV', 'MT',
+  'NL', 'PL', 'PT', 'RO', 'SE', 'SI', 'SK',
+] as const);
+
+export type Jurisdiction = typeof JURISDICTIONS extends Set<infer T> ? T : never;
 
 export interface ValidateOptions {
   jurisdiction?: Jurisdiction;

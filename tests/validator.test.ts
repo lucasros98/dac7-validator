@@ -4,6 +4,7 @@ import { describe, it, expect } from 'vitest';
 import { validateDPI } from '../src/index.js';
 import { isValidSwedishTIN } from '../src/schematron/se.js';
 import { luhn } from '../src/schematron/luhn.js';
+import { JURISDICTIONS } from '../src/types.js';
 
 const FIXTURES = join(import.meta.dirname, 'fixtures');
 
@@ -107,6 +108,60 @@ describe('Luhn algorithm', () => {
   it('rejects non-digit input', () => {
     expect(luhn('556000000A')).toBe(false);
     expect(luhn('')).toBe(false);
+  });
+});
+
+describe('validateDPI — input hardening', () => {
+  it('rejects XML with a DOCTYPE (XXE defence)', async () => {
+    const xml = await fixture('invalid/doctype-xxe.xml');
+    const result = await validateDPI(xml);
+    expect(result.valid).toBe(false);
+    expect(result.errors[0]?.code).toBe('OECD_DPI_E000');
+    expect(result.errors[0]?.message).toMatch(/DOCTYPE/i);
+  });
+
+  it('does not expand external entities (file:// must not leak)', async () => {
+    // Even with the DOCTYPE rejection in place, this confirms we never
+    // surface external-entity contents in error messages. The xxe entity
+    // points at /etc/passwd; our error message must not echo its contents.
+    const xml = await fixture('invalid/doctype-xxe.xml');
+    const result = await validateDPI(xml);
+    const all = JSON.stringify(result);
+    expect(all).not.toMatch(/root:x:0:0/);
+    expect(all).not.toMatch(/\/bin\/(ba)?sh/);
+  });
+
+  it('throws TypeError on unknown jurisdiction', async () => {
+    const xml = await fixture('golden/minimal.xml');
+    await expect(
+      // @ts-expect-error — deliberately passing an invalid jurisdiction
+      validateDPI(xml, { jurisdiction: 'XX' }),
+    ).rejects.toThrow(TypeError);
+  });
+
+  it('accepts XML using the default namespace (no dpi: prefix)', async () => {
+    const xml = await fixture('golden/minimal-se-default-ns.xml');
+    const result = await validateDPI(xml, { jurisdiction: 'SE' });
+    expect(result.valid).toBe(true);
+    expect(result.errors).toEqual([]);
+  });
+});
+
+describe('JURISDICTIONS set', () => {
+  it('is non-empty and includes the EU member states', () => {
+    expect(JURISDICTIONS.size).toBeGreaterThan(0);
+    expect(JURISDICTIONS.has('SE')).toBe(true);
+    expect(JURISDICTIONS.has('DE')).toBe(true);
+    expect(JURISDICTIONS.has('FR')).toBe(true);
+  });
+});
+
+describe('CLI module', () => {
+  it('can be imported without auto-running (no process.exit on import)', async () => {
+    // If the guard regressed, this import would call runMain → process.exit
+    // and the test runner would die. Reaching the next line is the assertion.
+    await import('../src/cli.js');
+    expect(true).toBe(true);
   });
 });
 

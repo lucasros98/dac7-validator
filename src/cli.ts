@@ -1,13 +1,14 @@
 #!/usr/bin/env node
 import { readFile } from 'node:fs/promises';
+import { pathToFileURL } from 'node:url';
 import { defineCommand, runMain } from 'citty';
 import { validateDPI } from './validator.js';
-import type { Jurisdiction } from './types.js';
+import { JURISDICTIONS, type Jurisdiction } from './types.js';
 
 const main = defineCommand({
   meta: {
     name: 'dac7-validator',
-    version: '0.1.0',
+    version: '0.1.2',
     description: 'Validate OECD DPI / EU DAC7 XML reports',
   },
   subCommands: {
@@ -31,9 +32,17 @@ const main = defineCommand({
       },
       async run({ args }) {
         const file = String(args.file);
-        const jurisdiction = args.jurisdiction
-          ? (String(args.jurisdiction) as Jurisdiction)
-          : undefined;
+        let jurisdiction: Jurisdiction | undefined;
+        if (args.jurisdiction) {
+          const raw = String(args.jurisdiction);
+          if (!JURISDICTIONS.has(raw as Jurisdiction)) {
+            process.stderr.write(
+              `Error: unknown jurisdiction "${raw}". Expected one of: ${[...JURISDICTIONS].join(', ')}.\n`,
+            );
+            process.exit(2);
+          }
+          jurisdiction = raw as Jurisdiction;
+        }
         const asJson = Boolean(args.json);
 
         const xml = await readFile(file, 'utf-8');
@@ -62,4 +71,9 @@ const main = defineCommand({
   },
 });
 
-runMain(main);
+// Only auto-run when invoked as a script. Importing this module (e.g. for
+// testing) must not trigger argv parsing or process.exit.
+const entry = process.argv[1];
+if (entry !== undefined && import.meta.url === pathToFileURL(entry).href) {
+  runMain(main);
+}
